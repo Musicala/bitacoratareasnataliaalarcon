@@ -1,0 +1,11 @@
+{
+  "api": {
+    "baseUrl": "https://script.google.com/macros/s/AKfycbxAduC-OEruiJmSn26fq0jCW5BBcaFR8XRscG9e3n7wjt1fpcb6PK23_re9GtD9C_tDRQ/exec",
+    "paramName": "consulta"
+  },
+  "dataset": "tareas",
+  "branding": {
+    "title": "Bitácora de tareas académicas — Natalia Alarcón",
+    "subtitle": "Hoja “Tareas académicas” · Registros en “Bitácora tareas”"
+  }
+}
