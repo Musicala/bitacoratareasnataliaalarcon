@@ -1,6 +1,6 @@
 {
   "api": {
-    "baseUrl": "https://script.google.com/macros/s/AKfycbxAduC-OEruiJmSn26fq0jCW5BBcaFR8XRscG9e3n7wjt1fpcb6PK23_re9GtD9C_tDRQ/exec",
+    "baseUrl": "https://script.google.com/macros/s/AKfycbyEZNdUdYm_IbZbhfEiaJ6zLfNEXSbDGdXsapqUY241y6qzbEhne3nowKyFvoHSzY-viQ/exec",
     "paramName": "consulta"
   },
   "dataset": "tareas",
