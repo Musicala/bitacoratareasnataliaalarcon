@@ -6,7 +6,7 @@
   <title>Bitácora de tareas académicas — Natalia Alarcón</title>
 
   <meta name="description" content="Vista de tareas académicas con filtros y registro de bitácora para Natalia Alarcón." />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <!-- Encabezado -->
@@ -27,7 +27,7 @@
       <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
         <button id="btnReload" class="btn" type="button" title="Volver a cargar desde la hoja">↻ Recargar</button>
 
-        <!-- Filtros: si una columna no existe, el script no cargará opciones -->
+        <!-- Filtros -->
         <select id="fPersona" class="btn" title="Filtrar por responsable">
           <option value="">Responsable: todos</option>
         </select>
@@ -84,7 +84,6 @@
         <div class="modal__meta">
           <div><strong>ID:</strong> <span id="logTaskIdTxt">—</span></div>
           <div><strong>Tarea:</strong> <span id="logTaskName">—</span></div>
-          <div><strong>Responsable:</strong> <span id="logAssignee">—</span></div>
         </div>
 
         <!-- Registros existentes -->
@@ -98,29 +97,23 @@
 
         <!-- Formulario: nuevo registro -->
         <h4 style="margin:16px 0 8px">Agregar registro</h4>
-        <form id="logForm" class="form-grid" aria-describedby="logStatus">
+        <form id="logForm" class="form-grid" aria-describedby="logStatus" novalidate>
           <input type="hidden" id="logTaskId" />
 
-          <!-- Persona es opcional y solo tendrá sentido si esa columna existe -->
           <label>
-            <span>Responsable</span>
-            <input type="text" id="logPersona" placeholder="(Opcional)" />
+            <span>Inicio <abbr title="Obligatorio" aria-hidden="true">*</abbr></span>
+            <input type="datetime-local" id="logInicio" required aria-required="true" />
           </label>
 
           <label>
-            <span>Inicio</span>
-            <input type="datetime-local" id="logInicio" />
+            <span>Fin <abbr title="Obligatorio" aria-hidden="true">*</abbr></span>
+            <input type="datetime-local" id="logFin" required aria-required="true" />
           </label>
 
-          <label>
-            <span>Fin</span>
-            <input type="datetime-local" id="logFin" />
-          </label>
-
-          <!-- Campos guía, con textos más claros -->
           <label class="full">
-            <span>¿Qué se avanzó?</span>
-            <textarea id="logAvanzo" rows="3" placeholder="Ej.: Se terminó el bosquejo de la guía / se ajustó el contenido de la unidad 1…"></textarea>
+            <span>¿Qué se avanzó? <abbr title="Obligatorio" aria-hidden="true">*</abbr></span>
+            <textarea id="logAvanzo" rows="3" required aria-required="true"
+              placeholder="Ej.: Se terminó el bosquejo de la guía / se ajustó el contenido de la unidad 1…"></textarea>
           </label>
 
           <label class="full">
@@ -134,9 +127,9 @@
           </label>
 
           <label>
-            <span>Estado al cerrar</span>
-            <select id="logEstado">
-              <option value="">—</option>
+            <span>Estado al cerrar <abbr title="Obligatorio" aria-hidden="true">*</abbr></span>
+            <select id="logEstado" required aria-required="true">
+              <option value="">— Selecciona —</option>
               <option>En curso</option>
               <option>Cumplido</option>
             </select>
@@ -149,7 +142,6 @@
           </div>
         </form>
 
-        <!-- Nota de uso (ligera) -->
         <p class="status" style="margin-top:8px">
           Consejo: registra avances breves y concretos. Si no hay cambios, añade “sin avances” para mantener el historial al día.
         </p>
