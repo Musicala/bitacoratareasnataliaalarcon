@@ -112,7 +112,7 @@ function fillSelect(sel, options, placeholder){
 }
 
 function fillFilters(){
-  const iP = IDX[norm('persona encargada')] ?? IDX[norm('responsable')]; // soporta "Responsable"
+  const iP = IDX[norm('persona encargada')] ?? IDX[norm('responsable')]; // si existe en la hoja
   const iE = IDX[norm('estado')];
   const iU = IDX[norm('urgencia')];
 
@@ -218,7 +218,7 @@ async function submitLog(e){
   e.preventDefault();
   const form   = $('#logForm');
 
-  // Validación nativa (asegúrate de que los inputs tengan required en el HTML)
+  // Validación nativa (asegúrate de que inputs/select tengan required en el HTML)
   if (!form.checkValidity()) {
     form.reportValidity();
     return;
@@ -233,9 +233,8 @@ async function submitLog(e){
   const falta  = $('#logFalta').value.trim();
   const mejorar= $('#logMejorar').value.trim();
 
-  // Validación adicional por robustez
+  // Validación adicional por robustez (coherente con backend)
   if (!id){ $('#logStatus').textContent = 'Falta el ID de la tarea.'; return; }
-
   if (!inicio){
     $('#logStatus').textContent = 'Por favor, ingresa la fecha/hora de inicio.';
     $('#logInicio').focus();
@@ -246,7 +245,6 @@ async function submitLog(e){
     $('#logFin').focus();
     return;
   }
-
   if (!avanzo){
     $('#logStatus').textContent = 'Por favor, describe "¿Qué se avanzó?".';
     $('#logAvanzo').focus();
