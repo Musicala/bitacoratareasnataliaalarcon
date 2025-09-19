@@ -100,8 +100,6 @@ body{
 .table-wrap{
   width:100%; overflow:auto; border-top:1px solid var(--border);
 }
-
-/* Scrollbar sutil (Chrome/Edge) */
 .table-wrap::-webkit-scrollbar{ height:10px; width:10px; }
 .table-wrap::-webkit-scrollbar-thumb{ background:#d9d9e6; border-radius:999px; border:2px solid transparent; }
 .table-wrap::-webkit-scrollbar-track{ background:transparent; }
@@ -124,7 +122,6 @@ tbody tr:nth-child(odd){ background:#fff; }
 tbody tr:nth-child(even){ background:#fafafe; }
 tbody tr:hover td{ background:#f6f6ff; }
 
-/* celdas largas y límites de ancho */
 .wrap{ white-space:normal; word-break:break-word; }
 td[data-th="Tarea"]{ max-width:var(--w-col-tarea); }
 td[data-th="¿Qué se avanzó?"],
@@ -136,7 +133,6 @@ td[data-th="Objetivo"]{
   max-width:var(--w-col-texto-largo);
 }
 
-/* columna ID sticky a la izquierda; Acciones sticky a la derecha */
 #tbl th:first-child, #tbl td:first-child{
   position:sticky; left:0; z-index:4;
   background:#fff; box-shadow:1px 0 0 var(--border);
@@ -149,11 +145,9 @@ td[data-th="Objetivo"]{
 #tbl td:last-child{ text-align:right; }
 .btn.btn-detail{ padding:5px 10px; font-size:var(--fs-12); border-radius:9px; }
 
-/* truncado elegante (aplícalo desde JS si quisieras) */
 .clamp-2{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 .clamp-3{ display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
 
-/* ====== Responsive: móvil como tarjetas ====== */
 @media (max-width: 760px){
   .card-head{ padding:10px; }
   .table-wrap{ overflow:visible; }
@@ -172,7 +166,6 @@ td[data-th="Objetivo"]{
     content: attr(data-th) ":"; min-width:42%; color:var(--muted);
     font-weight:700; font-size:var(--fs-12);
   }
-  /* quitar sticky en móvil */
   #tbl th:first-child, #tbl td:first-child,
   #tbl th:last-child,  #tbl td:last-child{
     position:static; box-shadow:none;
@@ -213,7 +206,6 @@ td[data-th="Objetivo"]{
 .form-actions{ display:flex; align-items:center; gap:8px; margin-top:6px; }
 @media (max-width:760px){ .form-grid{ grid-template-columns: 1fr; } }
 
-/* badges de estado dentro del modal/logs si los usas */
 .badge{
   display:inline-block; padding:3px 8px; border-radius:999px;
   border:1px solid var(--border); background:#fff; font-size:var(--fs-11); font-weight:800;
@@ -224,7 +216,7 @@ td[data-th="Objetivo"]{
   border:1px solid var(--border);
   background:#fff;
   padding:8px 12px;
-  border-radius:999px;          /* pastilla */
+  border-radius:999px;
   cursor:pointer;
   font-weight:700;
   font-size:var(--fs-13);
@@ -243,13 +235,12 @@ td[data-th="Objetivo"]{
 .btn-primary:hover{ background:linear-gradient(180deg,#7a54ff,var(--brand-1)); }
 .btn-ghost{ background:transparent; }
 
-/* ===== Selects y buscador con cara de control ===== */
 .card-head select.btn, .card-head input.btn{
   background:#fff;
   border-color:var(--border);
 }
 .card-head select.btn{
-  padding-right:32px;           /* más aire p/chevron */
+  padding-right:32px;
   background-image:
     linear-gradient(180deg,#fff,#fafafe),
     url("data:image/svg+xml;charset=UTF-8,%3Csvg width='12' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23666' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
@@ -258,7 +249,6 @@ td[data-th="Objetivo"]{
   background-size:12px 8px, auto;
 }
 
-/* ===== Contadores como chips ===== */
 #badgePend,#badgeCurso,#badgeComp{
   padding:6px 10px;
   border-radius:999px;
@@ -267,21 +257,16 @@ td[data-th="Objetivo"]{
   box-shadow:0 2px 6px rgba(17,17,26,.06);
 }
 
-/* ===== Tabla con header más elegante ===== */
 thead th{
   background:linear-gradient(180deg,#fff,#f7f7fb);
   border-bottom:1px solid var(--border);
 }
-tbody tr{
-  transition:background .12s ease;
-}
+tbody tr{ transition:background .12s ease; }
 tbody tr:hover td{ background:#f3f3ff; }
 
-/* Botón de acciones pegado a la derecha en desktop */
 #tbl td:last-child{ text-align:right; }
 .btn.btn-detail{ padding:7px 12px; font-size:var(--fs-12); }
 
-/* ===== Modal: header sticky y caja más suave ===== */
 .modal__dialog{
   border-radius:18px;
   box-shadow:0 20px 60px rgba(0,0,0,.22);
@@ -292,7 +277,6 @@ tbody tr:hover td{ background:#f3f3ff; }
   border-bottom:1px solid var(--border);
 }
 
-/* ===== Formularios del modal ===== */
 .form-grid input,
 .form-grid textarea,
 .form-grid select{
@@ -303,14 +287,24 @@ tbody tr:hover td{ background:#f3f3ff; }
 }
 .form-actions .btn{ padding:8px 14px; }
 
-/* ===== Tarjeta principal más “flotada” ===== */
 .card{
   border-radius:20px;
   box-shadow:0 14px 38px rgba(17,17,26,.10);
 }
 
-/* ===== Responsive: botón de acciones ocupa todo el ancho en móvil ===== */
 @media (max-width:760px){
   #tbl td:last-child{ text-align:left; }
   .btn.btn-detail{ width:100%; justify-content:center; }
+}
+
+/* ===== Extra: estilos de campos requeridos ===== */
+.form-grid [required]:invalid {
+  border-color:#e56;
+  box-shadow:0 0 0 3px rgba(230,85,102,.12);
+}
+.form-grid abbr[title="Obligatorio"] {
+  color:#e56;
+  text-decoration:none;
+  margin-left:4px;
+  font-weight:900;
 }
