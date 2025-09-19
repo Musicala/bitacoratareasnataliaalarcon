@@ -178,14 +178,11 @@ function hideModal(){ $('#modalLog')?.classList.remove('show'); $('#logStatus').
 async function openDetailById(id){
   const iId   = IDX[norm('id')];
   const iName = IDX[norm('tarea')];
-  const iPers = IDX[norm('persona encargada')] ?? IDX[norm('responsable')];
 
   const row = RAW_ROWS.find(r => String(r[iId]) === String(id));
   $('#logTaskId').value           = id || '';
   $('#logTaskIdTxt').textContent  = id || '—';
   $('#logTaskName').textContent   = row ? (row[iName] || '—') : '—';
-  $('#logAssignee').textContent   = row && iPers!=null ? (row[iPers] || '—') : '—';
-  $('#logPersona').value          = row && iPers!=null ? (row[iPers] || '')  : '';
 
   await loadLogs(id);
   showModal();
@@ -219,27 +216,57 @@ async function loadLogs(id){
 
 async function submitLog(e){
   e.preventDefault();
+  const form   = $('#logForm');
+
+  // Validación nativa (asegúrate de que los inputs tengan required en el HTML)
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
   const id     = $('#logTaskId').value.trim();
-  const perso  = $('#logPersona').value.trim();   // opcional
   const inicio = $('#logInicio').value;
   const fin    = $('#logFin').value;
   const tarea  = ($('#logTaskName')?.textContent || '').trim();
   const estado = $('#logEstado').value;
+  const avanzo = $('#logAvanzo').value.trim();
+  const falta  = $('#logFalta').value.trim();
+  const mejorar= $('#logMejorar').value.trim();
 
-  // Campos nuevos
-  const avanzo  = $('#logAvanzo').value.trim();
-  const falta   = $('#logFalta').value.trim();
-  const mejorar = $('#logMejorar').value.trim();
-
+  // Validación adicional por robustez
   if (!id){ $('#logStatus').textContent = 'Falta el ID de la tarea.'; return; }
+
+  if (!inicio){
+    $('#logStatus').textContent = 'Por favor, ingresa la fecha/hora de inicio.';
+    $('#logInicio').focus();
+    return;
+  }
+  if (!fin){
+    $('#logStatus').textContent = 'Por favor, ingresa la fecha/hora de fin.';
+    $('#logFin').focus();
+    return;
+  }
+
+  if (!avanzo){
+    $('#logStatus').textContent = 'Por favor, describe "¿Qué se avanzó?".';
+    $('#logAvanzo').focus();
+    return;
+  }
+  if (!estado){
+    $('#logStatus').textContent = 'Selecciona un "Estado al cerrar".';
+    $('#logEstado').focus();
+    return;
+  }
 
   try{
     $('#logStatus').textContent = 'Guardando…';
+    const btnSubmit = $('#logForm button[type="submit"]');
+    if (btnSubmit) btnSubmit.disabled = true;
+
     const body = new URLSearchParams({
       action:'add_log',
       id,
       tarea,
-      persona: perso, // si el backend no tiene columna, la ignora
       inicio, fin,
       avanzo, falta, mejorar,
       estado
@@ -250,14 +277,18 @@ async function submitLog(e){
     const payload = JSON.parse(text);
     if (payload.ok === false) throw new Error(payload.error || 'Error backend (POST)');
 
-    // limpiar y recargar lista
+    // Limpiar y recargar lista de logs
     $('#logInicio').value=''; $('#logFin').value='';
     $('#logAvanzo').value=''; $('#logFalta').value=''; $('#logMejorar').value='';
     $('#logEstado').value='';
     await loadLogs(id);
     $('#logStatus').textContent = 'Guardado ✔';
   }catch(err){
-    console.error(err); $('#logStatus').textContent = 'Error: ' + err.message;
+    console.error(err);
+    $('#logStatus').textContent = 'Error: ' + err.message;
+  }finally{
+    const btnSubmit = $('#logForm button[type="submit"]');
+    if (btnSubmit) btnSubmit.disabled = false;
   }
 }
 
@@ -271,7 +302,7 @@ async function init(){
     fillFilters();
     updateBadges(RAW_ROWS);
 
-    // Ocultar selects vacíos si corresponde (por si el CSS no se cargó aún)
+    // Ocultar selects vacíos si corresponde
     ['#fPersona','#fEstado','#fUrgencia'].forEach(id=>{
       const el=$(id);
       if (el && (!el.options || el.options.length<=1)) el.style.display='none';
